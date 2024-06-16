@@ -1,0 +1,143 @@
+usage: ratbagctl [OPTIONS] list
+       ratbagctl [OPTIONS] <device> {COMMAND} ...
+
+Inspect and modify a configurable device
+
+Common options:
+    --version -V                show program's version number and exit
+    --verbose, -v               increase verbosity level
+    --nocommit                  Do not immediately write the settings to the mouse
+    --help, -h                  show this help and exit
+
+General Commands:
+  list                                List supported devices (does not take a device argument)
+
+Device Commands:
+  info                                Show device information
+  test                                DEBUG TESTING
+  name                                Returns the device name
+
+Profile Commands:
+  Access profile information 
+
+  profile active get                  Show current active profile
+  profile active set N                Set current active profile
+  profile N get                       Show selected profile information
+  profile N name get                  Show the name of the profile
+  profile N name set blah             Set the name of the profile
+  profile N enable                    Enable a profile
+  profile N disable                   Disable a profile
+  profile N resolution ...            Use profile N for 'Resolution Commands'
+  profile N dpi ...                   Use profile N for 'DPI Commands'
+  profile N rate ...                  Use profile N for 'Rate Commands'
+  profile N angle_snapping ...        Use profile N for 'AngleSnapping Commands'
+  profile N debounce ...              Use profile N for 'Debounce Commands'
+  profile N button ...                Use profile N for 'Button Commands'
+  profile N led ...                   Use profile N for 'LED Commands'
+
+Resolution Commands:
+  Access resolution information
+
+  Resolution commands work on the given profile, or on the
+  active profile if none is given. 
+
+  resolution active get               Show current active resolution
+  resolution active set N             Set current active resolution
+  resolution default get              Show current default resolution
+  resolution default set N            Set current default resolution
+  resolution N get                    Show selected resolution
+  resolution N disabled get           Show if resolution is disabled
+  resolution N disabled set           Set resolution as disabled
+  resolution N enabled get            Show if resolution is enabled
+  resolution N enabled set            Set resolution as enabled
+  resolution N dpi ...                Use resolution N for 'DPI Commands'
+
+DPI Commands:
+  Access DPI information
+
+  DPI commands work on the given profile and resolution, or on the
+  active resolution of the active profile if none are given. 
+
+  dpi get                             Show current DPI value
+  dpi get-all                         Show all available DPIs
+  dpi set N                           Set the DPI value to N
+
+Rate Commands:
+  Access report rate information
+
+  Rate commands work on the given profile, or on the active profile if none is given. 
+
+  rate get                            Show current report rate
+  rate get-all                        Show all available report rates
+  rate set N                          Set the report rate to N
+
+AngleSnapping Commands:
+  Angle snapping information
+
+  Angle snapping commands work on the given profile, or on the active profile if none is given. 
+
+  angle_snapping get                  Show current angle snapping
+  angle_snapping set N                Set the current angle snapping to N
+
+Debounce Commands:
+  Access debounce time information
+
+  Debounce commands work on the given profile, or on the active profile if none is given. 
+
+  debounce get                        Show current debounce time
+  debounce get-all                    Show all available debounce times
+  debounce set N                      Set the current debounce time to N
+
+Button Commands:
+  Access Button information
+
+  Button commands work on the given profile, or on the
+  active profile if none is given. 
+
+  button count                        Print the number of buttons
+  button N get                        Show selected button
+  button N action get                 Print the button action
+  button N action set button B        Set the button action to button B
+  button N action set special S       Set the button action to special action S
+  button N action set key S           Set the button action to key
+  button N action set macro ...       Set the button action to the given macro
+
+  Macro syntax:
+        A macro is a series of key events or waiting periods.
+        Keys must be specified in linux/input-event-codes.h key names.
+        KEY_A                   Press and release 'a'
+        +KEY_A                  Press 'a'
+        -KEY_A                  Release 'a'
+        t300                    Wait 300ms
+  button N action set disabled        Disable this button
+
+LED Commands:
+  Access LED information
+
+  LED commands work on the given profile, or on the
+  active profile if none is given. 
+
+  led get                             Show current LED value
+  led N get                           Show current LED value
+  led N capabilities                  Show LED capabilities
+  led N {COMMAND} ...                 Act on the selected LED
+        mode [off|on|cycle|breathing] The mode to set as current
+        color RRGGBB                  The color to set as current
+        duration R                    The duration to set as current
+        brightness B                  The brightness to set as current
+
+Examples:
+  ratbagctl profile active get
+  ratbagctl profile 0 resolution active set 4
+  ratbagctl profile 0 resolution 1 dpi get
+  ratbagctl resolution 4 rate get
+  ratbagctl dpi set 800
+  ratbagctl profile 0 led 0 set mode on
+  ratbagctl profile 0 led 0 set color ff00ff
+  ratbagctl profile 0 led 0 set duration 50
+
+Exit codes:
+  0     Success
+  1     Unsupported feature, index out of available range or invalid device
+  2     Commandline arguments are invalid
+  3     A command failed on the device

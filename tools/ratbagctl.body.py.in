@@ -311,6 +311,11 @@ def show_device(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
     device = find_device(ratbagd, args)
     print_device(device, 0)
 
+def export_device(ratbagd: Ratbagd, args: argparse.Namespace, path="/home/mammadu/.deviceconfig") -> None:
+    device = find_device(ratbagd, args)
+    with open(path,"w+") as file:
+        file.write(print_device(device, 0))
+
 
 def show_profile(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
     profile, device = find_profile(ratbagd, args)
@@ -793,8 +798,7 @@ parser_def: List[RatbagParserSchemaElement] = [
         of_type: command,
         name: "export",
         help_str: "Export the device configuration",
-        func: print("export function goes here")
-        
+        func: export_device
     },
     {
         of_type: switch,
