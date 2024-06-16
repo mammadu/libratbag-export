@@ -790,6 +790,13 @@ parser_def: List[RatbagParserSchemaElement] = [
         func: func_device_name_get,
     },
     {
+        of_type: command,
+        name: "export",
+        help_str: "Export the device configuration",
+        func: print("export function goes here")
+        
+    },
+    {
         of_type: switch,
         name: "profile",
         help_str: "Access profile information",
