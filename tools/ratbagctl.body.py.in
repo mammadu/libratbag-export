@@ -23,6 +23,7 @@
 
 import evdev
 import subprocess
+from pathlib import Path
 import sys
 import argparse
 import textwrap
@@ -260,6 +261,32 @@ def print_resolution(
         )
     )
 
+def write_resolution(
+    _device: RatbagdDevice,
+    _profile: RatbagdProfile,
+    resolution: RatbagdResolution,
+    level: int,
+    file
+) -> None:
+    if resolution.resolution == (0, 0):
+        file.write(" " * level + f"{resolution.index}: <disabled>")
+        return
+    if len(resolution.resolution) == 2:
+        dpi = f"{resolution.resolution[0]}x{resolution.resolution[1]}"
+    else:
+        dpi = f"{resolution.resolution[0]}"
+
+    file.write(
+        " " * level
+        + "{}: {}dpi{}{}{}".format(
+            resolution.index,
+            dpi,
+            " (active)" if resolution.is_active else "",
+            " (default)" if resolution.is_default else "",
+            " (disabled)" if resolution.is_disabled else "",
+        )
+    )
+
 
 def print_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int) -> None:
     print(
@@ -291,6 +318,52 @@ def print_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int) ->
             for led in profile.leds:
                 print_led(device, profile, led, level)
 
+def write_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int, file) -> None:
+    file.write(
+        " " * (level - 2)
+        + "Profile {}:{}{}{}\n".format(
+            profile.index,
+            " (disabled)" if profile.disabled else "",
+            " (active)" if profile.is_active else "",
+            " (dirty)" if profile.dirty else "",
+        )
+    )
+    # print(
+    #     " " * (level - 2)
+    #     + "Profile {}:{}{}{}".format(
+    #         profile.index,
+    #         " (disabled)" if profile.disabled else "",
+    #         " (active)" if profile.is_active else "",
+    #         " (dirty)" if profile.dirty else "",
+    #     )
+    # )
+    
+    if not profile.disabled:
+        file.write(" " * level + "Name: {}".format(profile.name or "n/a"))
+        if profile.report_rate:
+            file.write(" " * level + f"Report Rate: {profile.report_rate}Hz")
+        if profile.resolutions:
+            file.write(" " * level + "Resolutions:")
+            for resolution in profile.resolutions:
+                write_resolution(device, profile, resolution, level + 2, file)
+    # if not profile.disabled:
+    #     print(" " * level + "Name: {}".format(profile.name or "n/a"))
+        # if profile.report_rate:
+        #     print(" " * level + f"Report Rate: {profile.report_rate}Hz")
+        # if profile.resolutions:
+        #     print(" " * level + "Resolutions:")
+        #     for resolution in profile.resolutions:
+        #         print_resolution(device, profile, resolution, level + 2)
+        if profile.angle_snapping != -1:
+            print(" " * level + f"Angle Snapping: {bool(profile.angle_snapping)}")
+        if profile.debounce != -1:
+            print(" " * level + f"Debounce time: {profile.debounce}ms")
+        if profile.buttons:
+            for button in profile.buttons:
+                print_button(device, profile, button, level)
+        if profile.leds:
+            for led in profile.leds:
+                print_led(device, profile, led, level)
 
 def print_device(device: RatbagdDevice, level: int) -> None:
     profile = device.profiles[0]  # there should be always one
@@ -306,15 +379,38 @@ def print_device(device: RatbagdDevice, level: int) -> None:
     for profile in device.profiles:
         print_profile(device, profile, level + 2)
 
+def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.deviceconfig") -> None:
+    profile = device.profiles[0]  # there should be always one
+    with open(path, "w+") as file:
+        file.write(" " * level + f"{device.id} - {device.name}\n")
+        file.write(" " * level + f"             Model: {device.model}\n")
+        file.write(" " * level + f"       Device Type: {device.device_type.name.capitalize()}\n")
+        if device.firmware_version:
+            file.write(" " * level + f"  Firmware version: {device.firmware_version}\n")
+        file.write(" " * level + f" Number of Buttons: {len(profile.buttons)}\n")
+        file.write(" " * level + f"    Number of Leds: {len(profile.leds)}\n")
+        file.write(" " * level + f"Number of Profiles: {len(device.profiles)}\n")
+        for profile in device.profiles:
+            write_profile(device, profile, level + 2,file)
+    # print(" " * level + f"{device.id} - {device.name}")
+    # print(" " * level + f"             Model: {device.model}")
+    # print(" " * level + f"       Device Type: {device.device_type.name.capitalize()}")
+    # if device.firmware_version:
+    #     print(" " * level + f"  Firmware version: {device.firmware_version}")
+    # print(" " * level + f" Number of Buttons: {len(profile.buttons)}")
+    # print(" " * level + f"    Number of Leds: {len(profile.leds)}")
+    # print(" " * level + f"Number of Profiles: {len(device.profiles)}")
+    # for profile in device.profiles:
+    #     print_profile(device, profile, level + 2)
+
 
 def show_device(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
     device = find_device(ratbagd, args)
     print_device(device, 0)
 
-def export_device(ratbagd: Ratbagd, args: argparse.Namespace, path="/home/mammadu/.deviceconfig") -> None:
+def export_device(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
     device = find_device(ratbagd, args)
-    with open(path,"w+") as file:
-        file.write(print_device(device, 0))
+    write_device(device, 0)
 
 
 def show_profile(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
