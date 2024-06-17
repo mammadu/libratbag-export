@@ -1,0 +1,156 @@
+warbling-mara - Logitech Gaming Mouse G600
+             Model: usb:046d:c24a:0
+       Device Type: Mouse
+ Number of Buttons: 41
+    Number of Leds: 1
+Number of Profiles: 3
+Profile 0: (active)
+  Name: n/a
+  Report Rate: 1000Hz
+  Resolutions:
+    0: 400dpi
+    1: 1200dpi (active) (default)
+    2: 2000dpi
+    3: 3200dpi
+  Button: 0 is mapped to 'button 1'
+  Button: 1 is mapped to 'button 2'
+  Button: 2 is mapped to 'button 3'
+  Button: 3 is mapped to macro '↕KEY_LEFT'
+  Button: 4 is mapped to macro '↕KEY_RIGHT'
+  Button: 5 is mapped to 'second-mode'
+  Button: 6 is mapped to 'button 4'
+  Button: 7 is mapped to 'button 5'
+  Button: 8 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_X ↑KEY_LEFTCTRL'
+  Button: 9 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_C ↑KEY_LEFTCTRL'
+  Button: 10 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_V ↑KEY_LEFTCTRL'
+  Button: 11 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_RESERVED ↑KEY_LEFTCTRL'
+  Button: 12 is mapped to macro '↓KEY_LEFTSHIFT ↕KEY_RESERVED ↑KEY_LEFTSHIFT'
+  Button: 13 is mapped to macro '↕KEY_DELETE'
+  Button: 14 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_Z ↑KEY_LEFTCTRL'
+  Button: 15 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_Y ↑KEY_LEFTCTRL'
+  Button: 16 is mapped to macro '↕KEY_KPENTER'
+  Button: 17 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_T ↑KEY_LEFTCTRL'
+  Button: 18 is mapped to macro '↓KEY_LEFTCTRL ↓KEY_LEFTSHIFT ↕KEY_T ↑KEY_LEFTCTRL ↑KEY_LEFTSHIFT'
+  Button: 19 is mapped to 'profile-cycle-up'
+  Button: 20 is mapped to none
+  Button: 21 is mapped to 'button 1'
+  Button: 22 is mapped to 'button 2'
+  Button: 23 is mapped to 'button 3'
+  Button: 24 is mapped to 'button 4'
+  Button: 25 is mapped to 'button 5'
+  Button: 26 is mapped to 'second-mode'
+  Button: 27 is mapped to macro '↓KEY_LEFTSHIFT ↕KEY_B ↑KEY_LEFTSHIFT'
+  Button: 28 is mapped to 'profile-cycle-up'
+  Button: 29 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_1 ↑KEY_LEFTCTRL'
+  Button: 30 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_2 ↑KEY_LEFTCTRL'
+  Button: 31 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_3 ↑KEY_LEFTCTRL'
+  Button: 32 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_4 ↑KEY_LEFTCTRL'
+  Button: 33 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_5 ↑KEY_LEFTCTRL'
+  Button: 34 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_6 ↑KEY_LEFTCTRL'
+  Button: 35 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_7 ↑KEY_LEFTCTRL'
+  Button: 36 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_8 ↑KEY_LEFTCTRL'
+  Button: 37 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_9 ↑KEY_LEFTCTRL'
+  Button: 38 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_0 ↑KEY_LEFTCTRL'
+  Button: 39 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_MINUS ↑KEY_LEFTCTRL'
+  Button: 40 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_EQUAL ↑KEY_LEFTCTRL'
+  LED: 0, depth: rgb, mode: on, color: 0000ff
+Profile 1:
+  Name: n/a
+  Report Rate: 1000Hz
+  Resolutions:
+    0: 400dpi
+    1: 1200dpi (active) (default)
+    2: 2000dpi
+    3: 3200dpi
+  Button: 0 is mapped to 'button 1'
+  Button: 1 is mapped to 'button 2'
+  Button: 2 is mapped to 'button 3'
+  Button: 3 is mapped to macro '↕KEY_LEFT'
+  Button: 4 is mapped to macro '↕KEY_RIGHT'
+  Button: 5 is mapped to macro '↕KEY_RIGHT'
+  Button: 6 is mapped to 'button 4'
+  Button: 7 is mapped to 'button 5'
+  Button: 8 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_X ↑KEY_LEFTCTRL'
+  Button: 9 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_C ↑KEY_LEFTCTRL'
+  Button: 10 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_V ↑KEY_LEFTCTRL'
+  Button: 11 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_RESERVED ↑KEY_LEFTCTRL'
+  Button: 12 is mapped to macro '↓KEY_LEFTSHIFT ↕KEY_RESERVED ↑KEY_LEFTSHIFT'
+  Button: 13 is mapped to macro '↕KEY_DELETE'
+  Button: 14 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_Z ↑KEY_LEFTCTRL'
+  Button: 15 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_Y ↑KEY_LEFTCTRL'
+  Button: 16 is mapped to macro '↕KEY_KPENTER'
+  Button: 17 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_T ↑KEY_LEFTCTRL'
+  Button: 18 is mapped to macro '↓KEY_LEFTCTRL ↓KEY_LEFTSHIFT ↕KEY_T ↑KEY_LEFTCTRL ↑KEY_LEFTSHIFT'
+  Button: 19 is mapped to 'profile-cycle-up'
+  Button: 20 is mapped to none
+  Button: 21 is mapped to 'button 1'
+  Button: 22 is mapped to 'button 2'
+  Button: 23 is mapped to 'button 3'
+  Button: 24 is mapped to 'button 4'
+  Button: 25 is mapped to 'button 5'
+  Button: 26 is mapped to 'second-mode'
+  Button: 27 is mapped to macro '↓KEY_LEFTSHIFT ↕KEY_B ↑KEY_LEFTSHIFT'
+  Button: 28 is mapped to 'profile-cycle-up'
+  Button: 29 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP1 ↑KEY_LEFTCTRL'
+  Button: 30 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP2 ↑KEY_LEFTCTRL'
+  Button: 31 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP3 ↑KEY_LEFTCTRL'
+  Button: 32 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP4 ↑KEY_LEFTCTRL'
+  Button: 33 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP5 ↑KEY_LEFTCTRL'
+  Button: 34 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP6 ↑KEY_LEFTCTRL'
+  Button: 35 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP7 ↑KEY_LEFTCTRL'
+  Button: 36 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP8 ↑KEY_LEFTCTRL'
+  Button: 37 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP9 ↑KEY_LEFTCTRL'
+  Button: 38 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KP0 ↑KEY_LEFTCTRL'
+  Button: 39 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KPMINUS ↑KEY_LEFTCTRL'
+  Button: 40 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_KPPLUS ↑KEY_LEFTCTRL'
+  LED: 0, depth: rgb, mode: on, color: 000000
+Profile 2:
+  Name: n/a
+  Report Rate: 1000Hz
+  Resolutions:
+    0: 400dpi
+    1: 1200dpi (active) (default)
+    2: 2000dpi
+    3: 3200dpi
+  Button: 0 is mapped to 'button 1'
+  Button: 1 is mapped to 'button 2'
+  Button: 2 is mapped to 'button 3'
+  Button: 3 is mapped to macro '↕KEY_LEFT'
+  Button: 4 is mapped to macro '↕KEY_RIGHT'
+  Button: 5 is mapped to 'second-mode'
+  Button: 6 is mapped to 'button 4'
+  Button: 7 is mapped to 'button 5'
+  Button: 8 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_X ↑KEY_LEFTCTRL'
+  Button: 9 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_C ↑KEY_LEFTCTRL'
+  Button: 10 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_V ↑KEY_LEFTCTRL'
+  Button: 11 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_RESERVED ↑KEY_LEFTCTRL'
+  Button: 12 is mapped to macro '↓KEY_LEFTSHIFT ↕KEY_RESERVED ↑KEY_LEFTSHIFT'
+  Button: 13 is mapped to macro '↕KEY_DELETE'
+  Button: 14 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_Z ↑KEY_LEFTCTRL'
+  Button: 15 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_Y ↑KEY_LEFTCTRL'
+  Button: 16 is mapped to macro '↕KEY_KPENTER'
+  Button: 17 is mapped to macro '↓KEY_LEFTCTRL ↕KEY_T ↑KEY_LEFTCTRL'
+  Button: 18 is mapped to macro '↓KEY_LEFTCTRL ↓KEY_LEFTSHIFT ↕KEY_T ↑KEY_LEFTCTRL ↑KEY_LEFTSHIFT'
+  Button: 19 is mapped to 'profile-cycle-up'
+  Button: 20 is mapped to none
+  Button: 21 is mapped to none
+  Button: 22 is mapped to none
+  Button: 23 is mapped to none
+  Button: 24 is mapped to none
+  Button: 25 is mapped to none
+  Button: 26 is mapped to none
+  Button: 27 is mapped to none
+  Button: 28 is mapped to none
+  Button: 29 is mapped to none
+  Button: 30 is mapped to none
+  Button: 31 is mapped to none
+  Button: 32 is mapped to none
+  Button: 33 is mapped to none
+  Button: 34 is mapped to none
+  Button: 35 is mapped to none
+  Button: 36 is mapped to none
+  Button: 37 is mapped to none
+  Button: 38 is mapped to none
+  Button: 39 is mapped to none
+  Button: 40 is mapped to none
+  LED: 0, depth: rgb, mode: cycle, duration: 4000, brightness: 0

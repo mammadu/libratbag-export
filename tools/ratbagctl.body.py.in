@@ -202,6 +202,66 @@ def print_led(
             )
         )
 
+def write_led(
+    _device: RatbagdDevice, _profile: RatbagdProfile, led: RatbagdLed, level: int, file
+) -> None:
+    leds = {
+        RatbagdLed.Mode.BREATHING: "breathing",
+        RatbagdLed.Mode.CYCLE: "cycle",
+        RatbagdLed.Mode.OFF: "off",
+        RatbagdLed.Mode.ON: "on",
+    }
+    depths = {
+        RatbagdLed.ColorDepth.MONOCHROME: "monochrome",
+        RatbagdLed.ColorDepth.RGB_888: "rgb",
+        RatbagdLed.ColorDepth.RGB_111: "rgb111",
+    }
+    if led.mode == RatbagdLed.Mode.OFF:
+        file.write(
+            " " * level
+            + "LED: {}, depth: {}, mode: {}\n".format(
+                led.index, depths[led.colordepth], leds[led.mode]
+            )
+        )
+    elif led.mode == RatbagdLed.Mode.ON:
+        file.write(
+            " " * level
+            + "LED: {}, depth: {}, mode: {}, color: {:02x}{:02x}{:02x}\n".format(
+                led.index,
+                depths[led.colordepth],
+                leds[led.mode],
+                led.color[0],
+                led.color[1],
+                led.color[2],
+            )
+        )
+    elif led.mode == RatbagdLed.Mode.CYCLE:
+        file.write(
+            " " * level
+            + "LED: {}, depth: {}, mode: {}, duration: {}, brightness: {}\n".format(
+                led.index,
+                depths[led.colordepth],
+                leds[led.mode],
+                led.effect_duration,
+                led.brightness,
+            )
+        )
+    elif led.mode == RatbagdLed.Mode.BREATHING:
+        file.write(
+            " " * level
+            + "LED: {}, depth: {}, mode: {}, color: {:02x}{:02x}{:02x}, duration: {},"
+            " brightness: {}\n".format(
+                led.index,
+                depths[led.colordepth],
+                leds[led.mode],
+                led.color[0],
+                led.color[1],
+                led.color[2],
+                led.effect_duration,
+                led.brightness,
+            )
+        )
+
 
 def print_led_caps(
     _device: RatbagdDevice, _profile: RatbagdProfile, led: RatbagdLed, level: int
@@ -373,6 +433,9 @@ def write_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int, fi
         if profile.buttons:
             for button in profile.buttons:
                 write_button(device, profile, button, level, file)
+        if profile.leds:
+            for led in profile.leds:
+                write_led(device, profile, led, level, file)
     # if not profile.disabled:
     #     print(" " * level + "Name: {}".format(profile.name or "n/a"))
         # if profile.report_rate:
@@ -385,12 +448,12 @@ def write_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int, fi
         #     print(" " * level + f"Angle Snapping: {bool(profile.angle_snapping)}")
         # if profile.debounce != -1:
         #     print(" " * level + f"Debounce time: {profile.debounce}ms")
-        if profile.buttons:
-            for button in profile.buttons:
-                print_button(device, profile, button, level)
-        if profile.leds:
-            for led in profile.leds:
-                print_led(device, profile, led, level)
+        # if profile.buttons:
+        #     for button in profile.buttons:
+        #         print_button(device, profile, button, level)
+        # if profile.leds:
+        #     for led in profile.leds:
+        #         print_led(device, profile, led, level)
 
 def print_device(device: RatbagdDevice, level: int) -> None:
     profile = device.profiles[0]  # there should be always one
