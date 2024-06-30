@@ -375,16 +375,22 @@ def print_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int) ->
             for led in profile.leds:
                 print_led(device, profile, led, level)
 
-def write_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int, file) -> None:
-    file.write(
-        " " * (level - 2)
-        + "Profile {}:{}{}{}\n".format(
-            profile.index,
-            " (disabled)" if profile.disabled else "",
-            " (active)" if profile.is_active else "",
-            " (dirty)" if profile.dirty else "",
-        )
-    )
+def profile_to_json(device: RatbagdDevice, profile: RatbagdProfile, level: int, file) -> None:
+    data = {}
+    data['index'] = profile.index
+    data['disabled'] = profile.disabled
+    data['active'] = profile.is_active
+    data['dirty'] = profile.dirty
+    
+    # file.write(
+    #     " " * (level - 2)
+    #     + "Profile {}:{}{}{}\n".format(
+    #         profile.index,
+    #         " (disabled)" if profile.disabled else "",
+    #         " (active)" if profile.is_active else "",
+    #         " (dirty)" if profile.dirty else "",
+    #     )
+    # )
     
     if not profile.disabled:
         file.write(" " * level + "Name: {}\n".format(profile.name or "n/a"))
@@ -404,6 +410,8 @@ def write_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int, fi
         if profile.leds:
             for led in profile.leds:
                 write_led(device, profile, led, level, file)
+
+    return data
 
 def print_device(device: RatbagdDevice, level: int) -> None:
     profile = device.profiles[0]  # there should be always one
@@ -432,8 +440,14 @@ def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.device
     data['device']['number_of_buttons'] = len(profile.buttons)
     data['device']['number_of_leds'] = len(profile.leds)
     data['device']['number_of_profiles'] = len(device.profiles)
+    data['device']['profile']= {}
+
 
     with open(path, "w+") as file:
+        for index, profile in enumerate(device.profiles):
+            data['device']['profile'][index] = profile_to_json(device, profile, level + 2,file)
+        
+        
         # file.write(" " * level + f"{device.id} - {device.name}\n")
         # file.write(" " * level + f"             Model: {device.model}\n")
         # file.write(" " * level + f"       Device Type: {device.device_type.name.capitalize()}\n")
@@ -443,7 +457,7 @@ def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.device
         # file.write(" " * level + f"    Number of Leds: {len(profile.leds)}\n")
         # file.write(" " * level + f"Number of Profiles: {len(device.profiles)}\n")
         for profile in device.profiles:
-            write_profile(device, profile, level + 2,file)
+            profile_to_json(device, profile, level + 2,file)
         json.dump(data, file,indent=2)
 
 
