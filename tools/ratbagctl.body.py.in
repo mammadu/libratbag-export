@@ -426,19 +426,25 @@ def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.device
     data['device']['id'] =  device.id
     data['device']['name'] =  device.name
     data['device']['model'] =  device.model
-    
+    data['device']['device_type'] =  device.device_type.name.capitalize()
+    if device.firmware_version:
+        data['device']['firmware_version'] = device.firmware_version
+    data['device']['number_of_buttons'] = len(profile.buttons)
+    data['device']['number_of_leds'] = len(profile.leds)
+    data['device']['number_of_profiles'] = len(device.profiles)
+
     with open(path, "w+") as file:
         # file.write(" " * level + f"{device.id} - {device.name}\n")
         # file.write(" " * level + f"             Model: {device.model}\n")
-        file.write(" " * level + f"       Device Type: {device.device_type.name.capitalize()}\n")
-        if device.firmware_version:
-            file.write(" " * level + f"  Firmware version: {device.firmware_version}\n")
-        file.write(" " * level + f" Number of Buttons: {len(profile.buttons)}\n")
-        file.write(" " * level + f"    Number of Leds: {len(profile.leds)}\n")
-        file.write(" " * level + f"Number of Profiles: {len(device.profiles)}\n")
+        # file.write(" " * level + f"       Device Type: {device.device_type.name.capitalize()}\n")
+        # if device.firmware_version:
+        #     file.write(" " * level + f"  Firmware version: {device.firmware_version}\n")
+        # file.write(" " * level + f" Number of Buttons: {len(profile.buttons)}\n")
+        # file.write(" " * level + f"    Number of Leds: {len(profile.leds)}\n")
+        # file.write(" " * level + f"Number of Profiles: {len(device.profiles)}\n")
         for profile in device.profiles:
             write_profile(device, profile, level + 2,file)
-        json.dump(data, file)
+        json.dump(data, file,indent=4)
 
 
 def show_device(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
