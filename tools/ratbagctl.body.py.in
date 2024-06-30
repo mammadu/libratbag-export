@@ -444,7 +444,7 @@ def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.device
         # file.write(" " * level + f"Number of Profiles: {len(device.profiles)}\n")
         for profile in device.profiles:
             write_profile(device, profile, level + 2,file)
-        json.dump(data, file,indent=4)
+        json.dump(data, file,indent=2)
 
 
 def show_device(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
