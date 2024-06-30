@@ -27,6 +27,7 @@ from pathlib import Path
 import sys
 import argparse
 import textwrap
+import json
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 # This must be on a single line, as we replace it using merge_ratbagd.py while building.
@@ -384,15 +385,6 @@ def write_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int, fi
             " (dirty)" if profile.dirty else "",
         )
     )
-    # print(
-    #     " " * (level - 2)
-    #     + "Profile {}:{}{}{}".format(
-    #         profile.index,
-    #         " (disabled)" if profile.disabled else "",
-    #         " (active)" if profile.is_active else "",
-    #         " (dirty)" if profile.dirty else "",
-    #     )
-    # )
     
     if not profile.disabled:
         file.write(" " * level + "Name: {}\n".format(profile.name or "n/a"))
@@ -412,24 +404,6 @@ def write_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int, fi
         if profile.leds:
             for led in profile.leds:
                 write_led(device, profile, led, level, file)
-    # if not profile.disabled:
-    #     print(" " * level + "Name: {}".format(profile.name or "n/a"))
-        # if profile.report_rate:
-        #     print(" " * level + f"Report Rate: {profile.report_rate}Hz")
-        # if profile.resolutions:
-        #     print(" " * level + "Resolutions:")
-        #     for resolution in profile.resolutions:
-        #         print_resolution(device, profile, resolution, level + 2)
-        # if profile.angle_snapping != -1:
-        #     print(" " * level + f"Angle Snapping: {bool(profile.angle_snapping)}")
-        # if profile.debounce != -1:
-        #     print(" " * level + f"Debounce time: {profile.debounce}ms")
-        # if profile.buttons:
-        #     for button in profile.buttons:
-        #         print_button(device, profile, button, level)
-        # if profile.leds:
-        #     for led in profile.leds:
-        #         print_led(device, profile, led, level)
 
 def print_device(device: RatbagdDevice, level: int) -> None:
     profile = device.profiles[0]  # there should be always one
@@ -447,9 +421,15 @@ def print_device(device: RatbagdDevice, level: int) -> None:
 
 def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.deviceconfig") -> None:
     profile = device.profiles[0]  # there should be always one
+    data = {}
+    data['device'] = {}
+    data['device']['id'] =  device.id
+    data['device']['name'] =  device.name
+    data['device']['model'] =  device.model
+    
     with open(path, "w+") as file:
-        file.write(" " * level + f"{device.id} - {device.name}\n")
-        file.write(" " * level + f"             Model: {device.model}\n")
+        # file.write(" " * level + f"{device.id} - {device.name}\n")
+        # file.write(" " * level + f"             Model: {device.model}\n")
         file.write(" " * level + f"       Device Type: {device.device_type.name.capitalize()}\n")
         if device.firmware_version:
             file.write(" " * level + f"  Firmware version: {device.firmware_version}\n")
@@ -458,16 +438,7 @@ def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.device
         file.write(" " * level + f"Number of Profiles: {len(device.profiles)}\n")
         for profile in device.profiles:
             write_profile(device, profile, level + 2,file)
-    # print(" " * level + f"{device.id} - {device.name}")
-    # print(" " * level + f"             Model: {device.model}")
-    # print(" " * level + f"       Device Type: {device.device_type.name.capitalize()}")
-    # if device.firmware_version:
-    #     print(" " * level + f"  Firmware version: {device.firmware_version}")
-    # print(" " * level + f" Number of Buttons: {len(profile.buttons)}")
-    # print(" " * level + f"    Number of Leds: {len(profile.leds)}")
-    # print(" " * level + f"Number of Profiles: {len(device.profiles)}")
-    # for profile in device.profiles:
-    #     print_profile(device, profile, level + 2)
+        json.dump(data, file)
 
 
 def show_device(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
