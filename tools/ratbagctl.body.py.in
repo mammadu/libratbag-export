@@ -195,59 +195,18 @@ def led_to_json(
     data = {}
     data['mode'] = led.mode
     if led.mode == RatbagdLed.Mode.OFF:
-        # file.write(
-        #     " " * level
-        #     + "LED: {}, depth: {}, mode: {}\n".format(
-        #         led.index, depths[led.colordepth], leds[led.mode]
-        #     )
-        # )
         data['index'] = led.index
         data['depth'] = led.colordepth
     elif led.mode == RatbagdLed.Mode.ON:
-        # file.write(
-        #     " " * level
-        #     + "LED: {}, depth: {}, mode: {}, color: {:02x}{:02x}{:02x}\n".format(
-        #         led.index,
-        #         depths[led.colordepth],
-        #         leds[led.mode],
-        #         led.color[0],
-        #         led.color[1],
-        #         led.color[2],
-        #     )
-        # )
         data['index'] = led.index
         data['depth'] = led.colordepth
         data['color']= led.color
     elif led.mode == RatbagdLed.Mode.CYCLE:
-        # file.write(
-        #     " " * level
-        #     + "LED: {}, depth: {}, mode: {}, duration: {}, brightness: {}\n".format(
-        #         led.index,
-        #         depths[led.colordepth],
-        #         leds[led.mode],
-        #         led.effect_duration,
-        #         led.brightness,
-        #     )
-        # )
         data['index'] = led.index
         data['depth'] = led.colordepth
         data['effect_duration'] = led.effect_duration
         data['brightness'] = led.brightness
     elif led.mode == RatbagdLed.Mode.BREATHING:
-        # file.write(
-        #     " " * level
-        #     + "LED: {}, depth: {}, mode: {}, color: {:02x}{:02x}{:02x}, duration: {},"
-        #     " brightness: {}\n".format(
-        #         led.index,
-        #         depths[led.colordepth],
-        #         leds[led.mode],
-        #         led.color[0],
-        #         led.color[1],
-        #         led.color[2],
-        #         led.effect_duration,
-        #         led.brightness,
-        #     )
-        # )
         data['index'] = led.index
         data['depth'] = led.colordepth
         data['color'] = led.color
@@ -297,29 +256,24 @@ def button_to_json(
 
     # mapping_str is a human readable version of the mapping
     if button.action_type == RatbagdButton.ActionType.BUTTON:
-        # file.write(f"{header}'button {button.mapping}'\n")
         data['action_type'] = "button"
         data['mapping'] = button.mapping
     elif button.action_type == RatbagdButton.ActionType.SPECIAL:
-        # file.write(f"{header}'{button_specials_strmap[button.special]}'\n")
         data['action_type'] = "special"
         data['mapping'] = button.special
         data['mapping_str'] = button_specials_strmap[button.special]
     elif button.action_type == RatbagdButton.ActionType.KEY:
         key_name = evcode_to_str(button.key)
-        # file.write(f"{header}key '{key_name}'\n")
         data['action_type'] = "key"
         data['mapping'] = button.key
         data['mapping_str'] = key_name
     elif button.action_type == RatbagdButton.ActionType.MACRO:
-        # file.write(f"{header}macro '{str(button.macro)}'\n")
         data['action_type'] = "macro"
         data['mapping'] = str(button.macro)
         data['mapping_str'] = str(button.macro)
     elif button.action_type == RatbagdButton.ActionType.NONE:
         data['action_type'] = "none"
     else:
-        # file.write(f"{header}UNKNOWN\n")
         data['action_type'] = "UNKNOWN"
     return data
 
@@ -402,36 +356,21 @@ def profile_to_json(device: RatbagdDevice, profile: RatbagdProfile, level: int) 
     data['disabled'] = profile.disabled
     data['active'] = profile.is_active
     data['dirty'] = profile.dirty
-    
-    # file.write(
-    #     " " * (level - 2)
-    #     + "Profile {}:{}{}{}\n".format(
-    #         profile.index,
-    #         " (disabled)" if profile.disabled else "",
-    #         " (active)" if profile.is_active else "",
-    #         " (dirty)" if profile.dirty else "",
-    #     )
-    # )
-    
+
     if not profile.disabled:
-        # file.write(" " * level + "Name: {}\n".format(profile.name or "n/a"))
         if profile.name:
             data['name'] = profile.name
         else:
             data['name'] = "n/a"
         if profile.report_rate:
-            # file.write(" " * level + f"Report Rate: {profile.report_rate}Hz\n")
             data['report_rate'] = profile.report_rate
         if profile.resolutions:
-            # file.write(" " * level + "Resolutions:\n")
             data['resolutions'] = []
             for resolution in profile.resolutions:
                 data['resolutions'].append(resolution_to_json(device, profile, resolution, level + 2))
         if profile.angle_snapping != -1:
-            # file.write(" " * level + f"Angle Snapping: {bool(profile.angle_snapping)}\n")
             data['angle_snapping'] = bool(profile.angle_snapping)
         if profile.debounce != -1:
-            # file.write(" " * level + f"Debounce time: {profile.debounce}ms\n")
             data['debounce_time'] = profile.debounce
         if profile.buttons:
             data['buttons'] = []
@@ -457,7 +396,7 @@ def print_device(device: RatbagdDevice, level: int) -> None:
     for profile in device.profiles:
         print_profile(device, profile, level + 2)
 
-def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.deviceconfig") -> None:
+def device_to_json(device: RatbagdDevice, level: int) -> None:
     profile = device.profiles[0]  # there should be always one
     data = {}
     data['device'] = {}
@@ -471,34 +410,19 @@ def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.device
     data['device']['number_of_leds'] = len(profile.leds)
     data['device']['number_of_profiles'] = len(device.profiles)
     data['device']['profile']= []
-
-
-    with open(path, "w+") as file:
-        for profile in device.profiles:
-            data['device']['profile'].append(profile_to_json(device, profile, level + 2))
-            # data['device']['profile'][profile.index] = profile_to_json(device, profile, level + 2,file)
-        
-        
-        # file.write(" " * level + f"{device.id} - {device.name}\n")
-        # file.write(" " * level + f"             Model: {device.model}\n")
-        # file.write(" " * level + f"       Device Type: {device.device_type.name.capitalize()}\n")
-        # if device.firmware_version:
-        #     file.write(" " * level + f"  Firmware version: {device.firmware_version}\n")
-        # file.write(" " * level + f" Number of Buttons: {len(profile.buttons)}\n")
-        # file.write(" " * level + f"    Number of Leds: {len(profile.leds)}\n")
-        # file.write(" " * level + f"Number of Profiles: {len(device.profiles)}\n")
-        # for profile in device.profiles:
-        #     profile_to_json(device, profile, level + 2,file)
-        json.dump(data, file,indent=2)
+    for profile in device.profiles:
+        data['device']['profile'].append(profile_to_json(device, profile, level + 2))
+    return data
 
 
 def show_device(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
     device = find_device(ratbagd, args)
     print_device(device, 0)
 
-def export_device(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
+def export_device(ratbagd: Ratbagd, args: argparse.Namespace, path=f"{Path.home()}/.deviceconfig") -> None:
     device = find_device(ratbagd, args)
-    write_device(device, 0)
+    with open(path, "w+") as file:
+        json.dump(device_to_json(device, 0), file,indent=2)
 
 
 def show_profile(ratbagd: Ratbagd, args: argparse.Namespace) -> None:
