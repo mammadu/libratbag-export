@@ -179,7 +179,7 @@ def print_led(
             f" brightness: {led.brightness}"
         )
 
-def write_led(
+def led_to_json(
     _device: RatbagdDevice, _profile: RatbagdProfile, led: RatbagdLed, level: int, file
 ) -> None:
     leds = {
@@ -193,51 +193,68 @@ def write_led(
         RatbagdLed.ColorDepth.RGB_888: "rgb",
         RatbagdLed.ColorDepth.RGB_111: "rgb111",
     }
+    data = {}
+    data['mode'] = led.mode
     if led.mode == RatbagdLed.Mode.OFF:
-        file.write(
-            " " * level
-            + "LED: {}, depth: {}, mode: {}\n".format(
-                led.index, depths[led.colordepth], leds[led.mode]
-            )
-        )
+        # file.write(
+        #     " " * level
+        #     + "LED: {}, depth: {}, mode: {}\n".format(
+        #         led.index, depths[led.colordepth], leds[led.mode]
+        #     )
+        # )
+        data['index'] = led.index
+        data['depth'] = led.colordepth
     elif led.mode == RatbagdLed.Mode.ON:
-        file.write(
-            " " * level
-            + "LED: {}, depth: {}, mode: {}, color: {:02x}{:02x}{:02x}\n".format(
-                led.index,
-                depths[led.colordepth],
-                leds[led.mode],
-                led.color[0],
-                led.color[1],
-                led.color[2],
-            )
-        )
+        # file.write(
+        #     " " * level
+        #     + "LED: {}, depth: {}, mode: {}, color: {:02x}{:02x}{:02x}\n".format(
+        #         led.index,
+        #         depths[led.colordepth],
+        #         leds[led.mode],
+        #         led.color[0],
+        #         led.color[1],
+        #         led.color[2],
+        #     )
+        # )
+        data['index'] = led.index
+        data['depth'] = led.colordepth
+        data['color']= led.color
     elif led.mode == RatbagdLed.Mode.CYCLE:
-        file.write(
-            " " * level
-            + "LED: {}, depth: {}, mode: {}, duration: {}, brightness: {}\n".format(
-                led.index,
-                depths[led.colordepth],
-                leds[led.mode],
-                led.effect_duration,
-                led.brightness,
-            )
-        )
+        # file.write(
+        #     " " * level
+        #     + "LED: {}, depth: {}, mode: {}, duration: {}, brightness: {}\n".format(
+        #         led.index,
+        #         depths[led.colordepth],
+        #         leds[led.mode],
+        #         led.effect_duration,
+        #         led.brightness,
+        #     )
+        # )
+        data['index'] = led.index
+        data['depth'] = led.colordepth
+        data['effect_duration'] = led.effect_duration
+        data['brightness'] = led.brightness
     elif led.mode == RatbagdLed.Mode.BREATHING:
-        file.write(
-            " " * level
-            + "LED: {}, depth: {}, mode: {}, color: {:02x}{:02x}{:02x}, duration: {},"
-            " brightness: {}\n".format(
-                led.index,
-                depths[led.colordepth],
-                leds[led.mode],
-                led.color[0],
-                led.color[1],
-                led.color[2],
-                led.effect_duration,
-                led.brightness,
-            )
-        )
+        # file.write(
+        #     " " * level
+        #     + "LED: {}, depth: {}, mode: {}, color: {:02x}{:02x}{:02x}, duration: {},"
+        #     " brightness: {}\n".format(
+        #         led.index,
+        #         depths[led.colordepth],
+        #         leds[led.mode],
+        #         led.color[0],
+        #         led.color[1],
+        #         led.color[2],
+        #         led.effect_duration,
+        #         led.brightness,
+        #     )
+        # )
+        data['index'] = led.index
+        data['depth'] = led.colordepth
+        data['color'] = led.color
+        data['effect_duration'] = led.effect_duration
+        data['brightness'] = led.brightness
+    return data
 
 
 def print_led_caps(
@@ -425,7 +442,8 @@ def profile_to_json(device: RatbagdDevice, profile: RatbagdProfile, level: int, 
                 data['buttons'].append(button_to_json(device, profile, button, level, file))
         if profile.leds:
             for led in profile.leds:
-                write_led(device, profile, led, level, file)
+                data['leds'] = []
+                data['leds'].append(led_to_json(device, profile, led, level, file))
 
     return data
 
