@@ -398,9 +398,11 @@ def profile_to_json(device: RatbagdDevice, profile: RatbagdProfile, level: int, 
             for resolution in profile.resolutions:
                 data['resolutions'].append(resolution_to_json(device, profile, resolution, level + 2, file))
         if profile.angle_snapping != -1:
-            file.write(" " * level + f"Angle Snapping: {bool(profile.angle_snapping)}\n")
+            # file.write(" " * level + f"Angle Snapping: {bool(profile.angle_snapping)}\n")
+            data['angle_snapping'] = bool(profile.angle_snapping)
         if profile.debounce != -1:
-            file.write(" " * level + f"Debounce time: {profile.debounce}ms\n")
+            # file.write(" " * level + f"Debounce time: {profile.debounce}ms\n")
+            data['debounce_time'] = profile.debounce
         if profile.buttons:
             for button in profile.buttons:
                 write_button(device, profile, button, level, file)
