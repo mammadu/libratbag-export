@@ -318,31 +318,22 @@ def print_resolution(
         )
     )
 
-def write_resolution(
+def resolution_to_json(
     _device: RatbagdDevice,
     _profile: RatbagdProfile,
     resolution: RatbagdResolution,
     level: int,
     file
 ) -> None:
+    data = {}
     if resolution.resolution == (0, 0):
-        file.write(" " * level + f"{resolution.index}: <disabled>\n")
-        return
-    if len(resolution.resolution) == 2:
-        dpi = f"{resolution.resolution[0]}x{resolution.resolution[1]}"
-    else:
-        dpi = f"{resolution.resolution[0]}"
-
-    file.write(
-        " " * level
-        + "{}: {}dpi{}{}{}\n".format(
-            resolution.index,
-            dpi,
-            " (active)" if resolution.is_active else "",
-            " (default)" if resolution.is_default else "",
-            " (disabled)" if resolution.is_disabled else "",
-        )
-    )
+        data['index'] = "disabled"
+        return data
+    data['dpi'] = resolution.resolution
+    data['active'] = resolution.is_active
+    data['default'] = resolution.is_default
+    data['disabled'] = resolution.is_disabled
+    return data
 
 
 def print_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int) -> None:
@@ -393,13 +384,19 @@ def profile_to_json(device: RatbagdDevice, profile: RatbagdProfile, level: int, 
     # )
     
     if not profile.disabled:
-        file.write(" " * level + "Name: {}\n".format(profile.name or "n/a"))
+        # file.write(" " * level + "Name: {}\n".format(profile.name or "n/a"))
+        if profile.name:
+            data['name'] = profile.name
+        else:
+            data['name'] = "n/a"
         if profile.report_rate:
-            file.write(" " * level + f"Report Rate: {profile.report_rate}Hz\n")
+            # file.write(" " * level + f"Report Rate: {profile.report_rate}Hz\n")
+            data['report_rate'] = profile.report_rate
         if profile.resolutions:
-            file.write(" " * level + "Resolutions:\n")
+            # file.write(" " * level + "Resolutions:\n")
+            data['resolutions'] = []
             for resolution in profile.resolutions:
-                write_resolution(device, profile, resolution, level + 2, file)
+                data['resolutions'].append(resolution_to_json(device, profile, resolution, level + 2, file))
         if profile.angle_snapping != -1:
             file.write(" " * level + f"Angle Snapping: {bool(profile.angle_snapping)}\n")
         if profile.debounce != -1:
@@ -440,12 +437,13 @@ def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.device
     data['device']['number_of_buttons'] = len(profile.buttons)
     data['device']['number_of_leds'] = len(profile.leds)
     data['device']['number_of_profiles'] = len(device.profiles)
-    data['device']['profile']= {}
+    data['device']['profile']= []
 
 
     with open(path, "w+") as file:
-        for index, profile in enumerate(device.profiles):
-            data['device']['profile'][index] = profile_to_json(device, profile, level + 2,file)
+        for profile in device.profiles:
+            data['device']['profile'].append(profile_to_json(device, profile, level + 2,file))
+            # data['device']['profile'][profile.index] = profile_to_json(device, profile, level + 2,file)
         
         
         # file.write(" " * level + f"{device.id} - {device.name}\n")
@@ -456,8 +454,8 @@ def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.device
         # file.write(" " * level + f" Number of Buttons: {len(profile.buttons)}\n")
         # file.write(" " * level + f"    Number of Leds: {len(profile.leds)}\n")
         # file.write(" " * level + f"Number of Profiles: {len(device.profiles)}\n")
-        for profile in device.profiles:
-            profile_to_json(device, profile, level + 2,file)
+        # for profile in device.profiles:
+        #     profile_to_json(device, profile, level + 2,file)
         json.dump(data, file,indent=2)
 
 
