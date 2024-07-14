@@ -180,8 +180,7 @@ def print_led(
         )
 
 def led_to_json(
-    _device: RatbagdDevice, _profile: RatbagdProfile, led: RatbagdLed, level: int, file
-) -> None:
+    _device: RatbagdDevice, _profile: RatbagdProfile, led: RatbagdLed, level: int) -> None:
     leds = {
         RatbagdLed.Mode.BREATHING: "breathing",
         RatbagdLed.Mode.CYCLE: "cycle",
@@ -291,8 +290,7 @@ def print_button(
 
 
 def button_to_json(
-    _device: RatbagdDevice, _profile: RatbagdProfile, button: RatbagdButton, level: int, file
-) -> None:
+    _device: RatbagdDevice, _profile: RatbagdProfile, button: RatbagdButton, level: int) -> None:
     data = {}
     header = " " * level + f"Button: {button.index} is mapped to "
     data['index'] = button.index
@@ -356,7 +354,6 @@ def resolution_to_json(
     _profile: RatbagdProfile,
     resolution: RatbagdResolution,
     level: int,
-    file
 ) -> None:
     data = {}
     if resolution.resolution == (0, 0):
@@ -399,7 +396,7 @@ def print_profile(device: RatbagdDevice, profile: RatbagdProfile, level: int) ->
             for led in profile.leds:
                 print_led(device, profile, led, level)
 
-def profile_to_json(device: RatbagdDevice, profile: RatbagdProfile, level: int, file) -> None:
+def profile_to_json(device: RatbagdDevice, profile: RatbagdProfile, level: int) -> None:
     data = {}
     data['index'] = profile.index
     data['disabled'] = profile.disabled
@@ -429,7 +426,7 @@ def profile_to_json(device: RatbagdDevice, profile: RatbagdProfile, level: int, 
             # file.write(" " * level + "Resolutions:\n")
             data['resolutions'] = []
             for resolution in profile.resolutions:
-                data['resolutions'].append(resolution_to_json(device, profile, resolution, level + 2, file))
+                data['resolutions'].append(resolution_to_json(device, profile, resolution, level + 2))
         if profile.angle_snapping != -1:
             # file.write(" " * level + f"Angle Snapping: {bool(profile.angle_snapping)}\n")
             data['angle_snapping'] = bool(profile.angle_snapping)
@@ -439,12 +436,11 @@ def profile_to_json(device: RatbagdDevice, profile: RatbagdProfile, level: int, 
         if profile.buttons:
             data['buttons'] = []
             for button in profile.buttons:
-                data['buttons'].append(button_to_json(device, profile, button, level, file))
+                data['buttons'].append(button_to_json(device, profile, button, level))
         if profile.leds:
             for led in profile.leds:
                 data['leds'] = []
-                data['leds'].append(led_to_json(device, profile, led, level, file))
-
+                data['leds'].append(led_to_json(device, profile, led, level))
     return data
 
 def print_device(device: RatbagdDevice, level: int) -> None:
@@ -479,7 +475,7 @@ def write_device(device: RatbagdDevice, level: int, path=f"{Path.home()}/.device
 
     with open(path, "w+") as file:
         for profile in device.profiles:
-            data['device']['profile'].append(profile_to_json(device, profile, level + 2,file))
+            data['device']['profile'].append(profile_to_json(device, profile, level + 2))
             # data['device']['profile'][profile.index] = profile_to_json(device, profile, level + 2,file)
         
         
